@@ -22,7 +22,7 @@ from pathlib import Path
 
 manifest = json.loads(Path("manifest.json").read_text(encoding="utf-8"))
 assert re.fullmatch(r"\d+\.\d+\.\d+", manifest["version"])
-assert manifest["id"] == "io.github.juancamilogra.glyphtap"
+assert manifest["id"] == "io.github.invrnt.glyphtap"
 assert manifest["kinds"] == ["overlay"]
 assert Path(manifest["entryPoints"]["overlay"]).is_file()
 assert Path("preview.png").is_file()

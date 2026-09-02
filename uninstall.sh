@@ -21,7 +21,7 @@ fi
 
 hyprctl reload >/dev/null 2>&1 || true
 omarchy-shell shell rescanPlugins >/dev/null 2>&1 || true
-omarchy plugin disable io.github.juancamilogra.glyphtap >/dev/null 2>&1 || true
+omarchy plugin disable io.github.invrnt.glyphtap >/dev/null 2>&1 || true
 
 if [[ $glyphtap_purge == true ]]; then
   glyphtap_state="${XDG_STATE_HOME:-$HOME/.local/state}/glyphtap"
@@ -35,4 +35,4 @@ else
   echo "GlyphTap integration was removed. Favorites, recents, and cache were preserved."
 fi
 
-echo "Remove the plugin checkout separately with: omarchy plugin remove io.github.juancamilogra.glyphtap"
+echo "Remove the plugin checkout separately with: omarchy plugin remove io.github.invrnt.glyphtap"

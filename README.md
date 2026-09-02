@@ -3,9 +3,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/JuanCamiloGrA/GlyphTap/releases/latest"><img src="https://img.shields.io/github/v/release/JuanCamiloGrA/GlyphTap?display_name=tag&style=flat-square&color=00b8ff" alt="Latest release"></a>
-  <a href="https://github.com/JuanCamiloGrA/GlyphTap/actions/workflows/ci.yml"><img src="https://github.com/JuanCamiloGrA/GlyphTap/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/JuanCamiloGrA/GlyphTap?style=flat-square" alt="MIT license"></a>
+  <a href="https://github.com/invrnt/GlyphTap/releases/latest"><img src="https://img.shields.io/github/v/release/invrnt/GlyphTap?display_name=tag&style=flat-square&color=00b8ff" alt="Latest release"></a>
+  <a href="https://github.com/invrnt/GlyphTap/actions/workflows/ci.yml"><img src="https://github.com/invrnt/GlyphTap/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/invrnt/GlyphTap?style=flat-square" alt="MIT license"></a>
 </p>
 
 <p align="center"><strong>Find. Tap. Copy.</strong></p>
@@ -20,20 +20,20 @@ catalog without opening a browser or starting a second Quickshell process.
 Install and enable the plugin:
 
 ```bash
-omarchy plugin add https://github.com/JuanCamiloGrA/GlyphTap.git --enable
+omarchy plugin add https://github.com/invrnt/GlyphTap.git --enable
 ```
 
 GlyphTap works immediately through Omarchy's shell IPC:
 
 ```bash
-omarchy-shell shell toggle io.github.juancamilogra.glyphtap
+omarchy-shell shell toggle io.github.invrnt.glyphtap
 ```
 
 For the complete integration—`Super + I`, a searchable GlyphTap entry inside
 `Super + Space`, and the short `glyphtap` command—run the optional setup:
 
 ```bash
-~/.config/omarchy/plugins/io.github.juancamilogra.glyphtap/install.sh
+~/.config/omarchy/plugins/io.github.invrnt.glyphtap/install.sh
 ```
 
 The setup validates the plugin first and changes only user-owned files. If
@@ -101,11 +101,26 @@ redistributing an asset.
 ## Update
 
 ```bash
-omarchy plugin update io.github.juancamilogra.glyphtap
-~/.config/omarchy/plugins/io.github.juancamilogra.glyphtap/install.sh
+omarchy plugin update io.github.invrnt.glyphtap
+~/.config/omarchy/plugins/io.github.invrnt.glyphtap/install.sh
 ```
 
 The second command refreshes the optional integration idempotently.
+
+### Migrating from 1.0.0
+
+Version 1.0.1 adopts the maintainer's current GitHub namespace. If you tested
+1.0.0 before its marketplace submission, replace the old plugin ID once:
+
+```bash
+~/.config/omarchy/plugins/io.github.juancamilogra.glyphtap/uninstall.sh
+omarchy plugin remove io.github.juancamilogra.glyphtap --yes
+omarchy plugin add https://github.com/invrnt/GlyphTap.git --enable --yes
+~/.config/omarchy/plugins/io.github.invrnt.glyphtap/install.sh
+```
+
+Favorites, recents, and cached icons remain available because the local state
+directory is unchanged.
 
 ## Uninstall
 
@@ -113,8 +128,8 @@ Remove the optional keybinding, menu entry, and command while preserving your
 personal library:
 
 ```bash
-~/.config/omarchy/plugins/io.github.juancamilogra.glyphtap/uninstall.sh
-omarchy plugin remove io.github.juancamilogra.glyphtap
+~/.config/omarchy/plugins/io.github.invrnt.glyphtap/uninstall.sh
+omarchy plugin remove io.github.invrnt.glyphtap
 ```
 
 Use `uninstall.sh --purge` to also remove favorites, recents, and cached icon

@@ -55,6 +55,6 @@ trap - EXIT
 
 hyprctl reload >/dev/null || echo "GlyphTap was installed, but Hyprland could not reload automatically." >&2
 omarchy-shell shell rescanPlugins >/dev/null
-omarchy plugin enable io.github.juancamilogra.glyphtap >/dev/null
+omarchy plugin enable io.github.invrnt.glyphtap >/dev/null
 
 echo "GlyphTap integration is ready: press Super + I or open GlyphTap from Super + Space."

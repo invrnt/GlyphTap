@@ -10,7 +10,7 @@ import re
 import tempfile
 
 
-PLUGIN_ID = "io.github.juancamilogra.glyphtap"
+PLUGIN_ID = "io.github.invrnt.glyphtap"
 COMMAND = f"omarchy-shell shell toggle {PLUGIN_ID}"
 BINDING_START = "-- GLYPHTAP MANAGED BINDING START"
 BINDING_END = "-- GLYPHTAP MANAGED BINDING END"
