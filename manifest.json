@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.juancamilogra.glyphtap",
+  "name": "GlyphTap",
+  "version": "1.0.0",
+  "author": "Juan Camilo Grisales Arias",
+  "license": "MIT",
+  "description": "A fast, theme-aware Iconify picker for Omarchy. Search with the keyboard, preview an icon, and copy production-ready SVG or framework markup in seconds.",
+  "kinds": [
+    "overlay"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "overlay": "GlyphTap.qml"
+  }
+}
