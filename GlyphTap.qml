@@ -47,12 +47,21 @@ Item {
   property var borderSpec: Border.surfaceSpec("menu", "border", borderColor, Math.max(1, Style.space(2)))
   readonly property int cornerRadius: Style.cornerRadius
   property string fontFamily: Style.font.menuFamily
-  property int cardWidth: Math.min(Style.space(1040), panel.width - Style.gapsOut * 2)
+  property int cardWidth: Math.min(Style.space(1100), panel.width - Style.gapsOut * 2)
   property int cardHeight: Math.min(Style.space(710), panel.height - Style.gapsOut * 2)
   property int cardPadding: Style.spacing.panelPadding
-  property int gridColumns: Math.max(4, Math.floor((cardWidth - cardPadding * 2) / Style.space(142)))
-  property int cellWidth: Math.floor((cardWidth - cardPadding * 2 - Style.spacing.md * (gridColumns - 1)) / gridColumns)
-  property int cellHeight: Style.space(112)
+  property int headerHeight: Style.space(34)
+  property int searchHeight: Style.space(46)
+  property int footerHeight: Style.space(34)
+  property int gridGap: Style.spacing.sm
+  property int targetCellWidth: Style.space(132)
+  property int gridColumns: resultGrid.width > 0
+    ? Math.max(1, Math.floor((resultGrid.width + gridGap) / (targetCellWidth + gridGap)))
+    : 1
+  property int cellWidth: resultGrid.width > 0
+    ? Math.floor(resultGrid.width / gridColumns)
+    : targetCellWidth
+  property int cellHeight: Style.space(120)
 
   function open(payloadJson) {
     root.opened = true
@@ -163,7 +172,10 @@ Item {
     root.previewOpen = false
     root.formatMenuOpen = false
     var next = root.selectedIndex + delta * root.gridColumns
-    root.selectedIndex = Math.max(0, Math.min(next, displayModel.count - 1))
+    // Stay in the same visual column. A partial final row must not turn a
+    // vertical key press into a diagonal jump.
+    if (next < 0 || next >= displayModel.count) return
+    root.selectedIndex = next
     resultGrid.positionViewAtIndex(root.selectedIndex, GridView.Contain)
   }
 
@@ -387,38 +399,16 @@ Item {
 
         Item {
           width: parent.width
-          height: Style.space(46)
+          height: root.headerHeight
 
-          Image {
-            id: brandIcon
+          Text {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
-            width: Style.space(36)
-            height: width
-            source: Qt.resolvedUrl("assets/icon.png")
-            fillMode: Image.PreserveAspectFit
-            mipmap: true
-          }
-
-          Column {
-            anchors.left: brandIcon.right
-            anchors.leftMargin: Style.spacing.sm
-            anchors.verticalCenter: parent.verticalCenter
-            spacing: 0
-            Text {
-              text: "GlyphTap"
-              color: root.foreground
-              font.family: root.fontFamily
-              font.pixelSize: Style.font.heading
-              font.bold: true
-            }
-            Text {
-              text: "Find. Tap. Copy."
-              color: root.foreground
-              opacity: 0.55
-              font.family: root.fontFamily
-              font.pixelSize: Style.font.caption
-            }
+            text: "GlyphTap"
+            color: root.foreground
+            font.family: root.fontFamily
+            font.pixelSize: Style.font.heading
+            font.weight: Font.DemiBold
           }
 
           Rectangle {
@@ -426,7 +416,7 @@ Item {
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             width: formatText.implicitWidth + Style.spacing.lg
-            height: Style.space(32)
+            height: Style.space(30)
             radius: root.cornerRadius
             color: root.formatMenuOpen ? root.selectedBackground : "transparent"
             border.width: 1
@@ -437,7 +427,7 @@ Item {
               text: root.formatLabel(root.outputFormat) + "  ▾"
               color: root.formatMenuOpen ? root.selectedText : root.foreground
               font.family: root.fontFamily
-              font.pixelSize: Style.font.body
+              font.pixelSize: Style.font.bodySmall
             }
             MouseArea {
               anchors.fill: parent
@@ -449,24 +439,24 @@ Item {
 
         Rectangle {
           width: parent.width
-          height: Style.space(50)
+          height: root.searchHeight
           radius: root.cornerRadius
           color: "transparent"
-          border.width: root.gridFocused ? 1 : 2
+          border.width: 1
           border.color: root.gridFocused ? root.borderColor : root.accent
 
-          Text {
+          SearchGlyph {
+            id: searchIcon
             anchors.left: parent.left
-            anchors.leftMargin: Style.spacing.md
+            anchors.leftMargin: Style.spacing.lg
             anchors.verticalCenter: parent.verticalCenter
-            text: "⌕"
-            color: root.accent
-            font.family: root.fontFamily
-            font.pixelSize: Style.font.display
+            width: Style.space(20)
+            height: width
+            color: root.gridFocused ? root.foreground : root.accent
           }
           Text {
-            anchors.left: parent.left
-            anchors.leftMargin: Style.space(48)
+            anchors.left: searchIcon.right
+            anchors.leftMargin: Style.spacing.md
             anchors.right: loadingGlyph.left
             anchors.rightMargin: Style.spacing.md
             anchors.verticalCenter: parent.verticalCenter
@@ -499,15 +489,15 @@ Item {
 
         Item {
           width: parent.width
-          height: parent.height - Style.space(46) - Style.space(50) - Style.space(42) - Style.spacing.md * 3
+          height: parent.height - root.headerHeight - root.searchHeight - root.footerHeight - Style.spacing.md * 3
 
           GridView {
             id: resultGrid
             anchors.fill: parent
             model: displayModel
             clip: true
-            cellWidth: root.cellWidth + Style.spacing.md
-            cellHeight: root.cellHeight + Style.spacing.md
+            cellWidth: root.cellWidth
+            cellHeight: root.cellHeight
             boundsBehavior: Flickable.StopAtBounds
 
             delegate: Rectangle {
@@ -518,8 +508,8 @@ Item {
               required property bool favorite
               required property string sourceUrl
               readonly property bool selected: index === root.selectedIndex
-              width: root.cellWidth
-              height: root.cellHeight
+              width: Math.max(1, root.cellWidth - root.gridGap)
+              height: Math.max(1, root.cellHeight - root.gridGap)
               radius: root.cornerRadius
               color: selected ? root.selectedBackground : "transparent"
               border.width: selected ? 1 : 0
@@ -529,11 +519,14 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
                 anchors.topMargin: Style.spacing.md
-                width: Style.space(48)
+                width: Style.space(52)
                 height: width
                 source: parent.sourceUrl
+                sourceSize.width: Math.ceil(width * 4)
+                sourceSize.height: Math.ceil(height * 4)
                 fillMode: Image.PreserveAspectFit
                 asynchronous: true
+                smooth: true
                 mipmap: true
               }
               Text {
@@ -619,8 +612,11 @@ Item {
                 width: Style.space(220)
                 height: width
                 source: parent.parent.row ? parent.parent.row.sourceUrl : ""
+                sourceSize.width: Math.ceil(width * 3)
+                sourceSize.height: Math.ceil(height * 3)
                 fillMode: Image.PreserveAspectFit
                 asynchronous: true
+                smooth: true
                 mipmap: true
               }
               Column {
@@ -712,7 +708,7 @@ Item {
 
         Item {
           width: parent.width
-          height: Style.space(42)
+          height: root.footerHeight
           Text {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
@@ -725,7 +721,7 @@ Item {
           Text {
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            text: "↑↓←→ navigate   Enter copy   Ctrl+Enter keep open   Space preview   Ctrl+D favorite"
+            text: "Arrows move  ·  Enter copy  ·  Space preview"
             color: root.foreground
             opacity: 0.5
             font.family: root.fontFamily

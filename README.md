@@ -17,20 +17,26 @@ catalog without opening a browser or starting a second Quickshell process.
 
 ## Install
 
-Install and enable the plugin:
+Install and enable GlyphTap with one command:
 
 ```bash
 omarchy plugin add https://github.com/invrnt/GlyphTap.git --enable
 ```
 
-GlyphTap works immediately through Omarchy's shell IPC:
+Omarchy automatically adds the GlyphTap launcher to the right side of the bar.
+Click the monochrome GlyphTap mark to open the icon picker; no separate setup
+step is required.
+
+To also install the `Super + I` keybinding, a searchable GlyphTap entry inside
+`Super + Space`, and the short `glyphtap` command, use this complete one-command
+installation instead:
 
 ```bash
-omarchy-shell shell toggle io.github.invrnt.glyphtap
+omarchy plugin add https://github.com/invrnt/GlyphTap.git --enable && ~/.config/omarchy/plugins/io.github.invrnt.glyphtap/install.sh
 ```
 
-For the complete integration—`Super + I`, a searchable GlyphTap entry inside
-`Super + Space`, and the short `glyphtap` command—run the optional setup:
+If the plugin is already installed and you later decide you want those optional
+shortcuts, run:
 
 ```bash
 ~/.config/omarchy/plugins/io.github.invrnt.glyphtap/install.sh
@@ -43,8 +49,9 @@ intentional.
 
 ## Use
 
-1. Press `Super + I` (after optional setup), choose GlyphTap from
-   `Super + Space`, or run `glyphtap`.
+1. Click the GlyphTap mark in the bar. With the optional shortcuts installed,
+   you can instead press `Super + I`, choose GlyphTap from `Super + Space`, or
+   run `glyphtap`.
 2. Type a name such as `github`, `arrow left`, `wifi off`, or `database`.
 3. Move with the arrow keys and press Enter. GlyphTap copies the selected SVG
    and closes after a brief confirmation.
@@ -102,14 +109,18 @@ redistributing an asset.
 
 ```bash
 omarchy plugin update io.github.invrnt.glyphtap
+```
+
+If you installed the optional menu, keybinding, and command integration, refresh
+it after updating:
+
+```bash
 ~/.config/omarchy/plugins/io.github.invrnt.glyphtap/install.sh
 ```
 
-The second command refreshes the optional integration idempotently.
-
 ### Migrating from 1.0.0
 
-Version 1.0.1 adopts the maintainer's current GitHub namespace. If you tested
+Version 1.1.0 adopts the maintainer's current GitHub namespace. If you tested
 1.0.0 before its marketplace submission, replace the old plugin ID once:
 
 ```bash
@@ -124,8 +135,14 @@ directory is unchanged.
 
 ## Uninstall
 
-Remove the optional keybinding, menu entry, and command while preserving your
-personal library:
+If you only use the automatic bar launcher, Omarchy removes it with the plugin:
+
+```bash
+omarchy plugin remove io.github.invrnt.glyphtap
+```
+
+If you installed the optional keybinding, menu entry, and command, remove that
+integration first while preserving your personal library:
 
 ```bash
 ~/.config/omarchy/plugins/io.github.invrnt.glyphtap/uninstall.sh
@@ -133,8 +150,8 @@ omarchy plugin remove io.github.invrnt.glyphtap
 ```
 
 Use `uninstall.sh --purge` to also remove favorites, recents, and cached icon
-data. The uninstall script removes its launcher only when the installed file
-still matches GlyphTap's copy.
+data. The uninstall script removes its command wrapper only when the installed
+file still matches GlyphTap's copy.
 
 ## Development
 

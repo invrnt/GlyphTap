@@ -21,10 +21,14 @@ import re
 from pathlib import Path
 
 manifest = json.loads(Path("manifest.json").read_text(encoding="utf-8"))
+backend = Path("glyphtap_backend.py").read_text(encoding="utf-8")
 assert re.fullmatch(r"\d+\.\d+\.\d+", manifest["version"])
 assert manifest["id"] == "io.github.invrnt.glyphtap"
-assert manifest["kinds"] == ["overlay"]
+assert f'GlyphTap/{manifest["version"]}' in backend
+assert set(manifest["kinds"]) == {"overlay", "bar-widget"}
 assert Path(manifest["entryPoints"]["overlay"]).is_file()
+assert Path(manifest["entryPoints"]["barWidget"]).is_file()
+assert manifest["barWidget"]["defaultSection"] == "right"
 assert Path("preview.png").is_file()
 assert Path("LICENSE").is_file()
 assert Path("README.md").is_file()

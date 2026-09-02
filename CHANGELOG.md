@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.0.1] - 2026-09-02
+## [1.1.0] - 2026-09-02
 
 - Adopt the maintainer's current `invrnt` GitHub namespace before the first
   marketplace submission.
@@ -8,6 +8,14 @@
   Omarchy integration to `io.github.invrnt.glyphtap`.
 - Document the one-time migration from the preregistry 1.0.0 plugin ID while
   preserving favorites, recents, and cache.
+- Add a native bar launcher so the standard Omarchy plugin command is a complete
+  installation with no follow-up setup.
+- Add an optional one-command installation for the `Super + I` binding, Omarchy
+  menu entry, and `glyphtap` command.
+- Refine the overlay with proportional grid navigation, full-width results,
+  high-resolution SVG previews, and a quieter minimalist layout.
+- Replace the old raster branding with theme-aware vector marks for the bar and
+  search field.
 
 ## [1.0.0] - 2026-09-02
 
@@ -17,5 +25,5 @@
 - Preview, favorites, recents, persistent copy mode, and SVG file saving.
 - Optional reversible `Super + I`, Omarchy menu, and `glyphtap` command setup.
 
-[1.0.1]: https://github.com/invrnt/GlyphTap/compare/v1.0.0...v1.0.1
+[1.1.0]: https://github.com/invrnt/GlyphTap/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/invrnt/GlyphTap/releases/tag/v1.0.0
