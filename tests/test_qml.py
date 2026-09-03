@@ -43,6 +43,12 @@ class QmlContractTests(unittest.TestCase):
         self.assertNotIn("id: brandIcon", self.source)
         self.assertNotIn('text: "G"', self.bar_widget)
 
+    def test_search_has_an_explicit_animated_loading_state(self):
+        self.assertIn('text: "Searching…"', self.source)
+        self.assertIn("SequentialAnimation on scale", self.source)
+        self.assertIn("SequentialAnimation on x", self.source)
+        self.assertIn("visible: root.loading", self.source)
+
     def test_bar_mark_uses_the_supplied_circle_square_and_triangle(self):
         self.assertIn("import QtQuick.Shapes", self.bar_glyph)
         self.assertIn("M42.5 34.376a8.119", self.bar_glyph)

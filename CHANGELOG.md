@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.1] - 2026-09-02
+
+- Make slower searches unmistakable with an explicit animated searching state
+  and a slim indeterminate progress bar while keeping existing results visible.
+
 ## [1.1.0] - 2026-09-02
 
 - Adopt the maintainer's current `invrnt` GitHub namespace before the first
@@ -26,4 +31,5 @@
 - Optional reversible `Super + I`, Omarchy menu, and `glyphtap` command setup.
 
 [1.1.0]: https://github.com/invrnt/GlyphTap/compare/v1.0.0...v1.1.0
+[1.1.1]: https://github.com/invrnt/GlyphTap/compare/v1.1.0...v1.1.1
 [1.0.0]: https://github.com/invrnt/GlyphTap/releases/tag/v1.0.0

@@ -438,6 +438,7 @@ Item {
         }
 
         Rectangle {
+          id: searchField
           width: parent.width
           height: root.searchHeight
           radius: root.cornerRadius
@@ -457,7 +458,7 @@ Item {
           Text {
             anchors.left: searchIcon.right
             anchors.leftMargin: Style.spacing.md
-            anchors.right: loadingGlyph.left
+            anchors.right: searchAction.left
             anchors.rightMargin: Style.spacing.md
             anchors.verticalCenter: parent.verticalCenter
             text: root.filterText || "Search 300,000+ icons…"
@@ -467,22 +468,100 @@ Item {
             font.family: root.fontFamily
             font.pixelSize: Style.font.title
           }
-          Text {
-            id: loadingGlyph
+          Item {
+            id: searchAction
             anchors.right: parent.right
             anchors.rightMargin: Style.spacing.md
             anchors.verticalCenter: parent.verticalCenter
-            text: root.loading ? "•••" : (root.filterText ? "×" : "")
-            color: root.foreground
-            opacity: 0.6
-            font.family: root.fontFamily
-            font.pixelSize: Style.font.body
+            width: root.loading ? loadingRow.width : clearGlyph.width
+            height: parent.height
+
+            Row {
+              id: loadingRow
+              anchors.centerIn: parent
+              visible: root.loading
+              spacing: Style.spacing.sm
+
+              Item {
+                width: Style.space(18)
+                height: width
+
+                Rectangle {
+                  width: Style.space(6)
+                  height: width
+                  radius: width / 2
+                  anchors.centerIn: parent
+                  color: root.accent
+                  transformOrigin: Item.Center
+
+                  SequentialAnimation on scale {
+                    running: root.loading
+                    loops: Animation.Infinite
+                    NumberAnimation { from: 0.55; to: 1; duration: 430; easing.type: Easing.InOutQuad }
+                    NumberAnimation { from: 1; to: 0.55; duration: 430; easing.type: Easing.InOutQuad }
+                  }
+                  SequentialAnimation on opacity {
+                    running: root.loading
+                    loops: Animation.Infinite
+                    NumberAnimation { from: 0.45; to: 1; duration: 430 }
+                    NumberAnimation { from: 1; to: 0.45; duration: 430 }
+                  }
+                }
+              }
+
+              Text {
+                anchors.verticalCenter: parent.verticalCenter
+                text: "Searching…"
+                color: root.foreground
+                opacity: 0.72
+                font.family: root.fontFamily
+                font.pixelSize: Style.font.bodySmall
+              }
+            }
+
+            Text {
+              id: clearGlyph
+              anchors.centerIn: parent
+              visible: !root.loading && !!root.filterText
+              text: "×"
+              color: root.foreground
+              opacity: 0.6
+              font.family: root.fontFamily
+              font.pixelSize: Style.font.body
+            }
             MouseArea {
               anchors.fill: parent
               anchors.margins: -Style.spacing.sm
               enabled: !root.loading && !!root.filterText
               cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
               onClicked: root.queueSearch("")
+            }
+          }
+
+          Item {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            height: Style.space(2)
+            clip: true
+            visible: root.loading
+
+            Rectangle {
+              width: Math.max(Style.space(90), parent.width * 0.18)
+              height: parent.height
+              radius: height / 2
+              color: root.accent
+
+              SequentialAnimation on x {
+                running: root.loading
+                loops: Animation.Infinite
+                NumberAnimation {
+                  from: -Style.space(180)
+                  to: searchField.width
+                  duration: 1150
+                  easing.type: Easing.InOutQuad
+                }
+              }
             }
           }
         }

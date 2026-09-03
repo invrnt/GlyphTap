@@ -23,7 +23,7 @@ from urllib.request import Request, build_opener, HTTPRedirectHandler
 
 
 API_ORIGIN = "https://api.iconify.design"
-USER_AGENT = "GlyphTap/1.1.0 (+https://github.com/invrnt/GlyphTap)"
+USER_AGENT = "GlyphTap/1.1.1 (+https://github.com/invrnt/GlyphTap)"
 MAX_RESPONSE_BYTES = 8 * 1024 * 1024
 MAX_CACHE_BYTES = 24 * 1024 * 1024
 MAX_ICONS = 96
